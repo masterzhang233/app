@@ -159,6 +159,18 @@ object PatchStore {
                 )
             }
         }
+        PATCHES += Patch("WaveSDK compatibility", "Enable WaveSDK and plugin support on Pico headsets") {
+            selectSmali {
+                replace(
+                    "sget-object (\\w+), Landroid/os/Build;->MANUFACTURER:Ljava/lang/String;",
+                    "const-string $1, \"htc\""
+                )
+                replace(
+                    "sget-object (\\w+), Landroid/os/Build;->MODEL:Ljava/lang/String;",
+                    "const-string $1, \"Vive Focus 3\""
+                )
+            }
+        }
         PATCHES += Patch("Pico/YVR/Quest metadata") {
             selectManifest {
                 readJson().takeNodesEach(({ named("manifest") })) {
